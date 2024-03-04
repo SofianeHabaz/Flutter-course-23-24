@@ -27,11 +27,31 @@ class Home extends StatelessWidget {
 
       ),
 
-      body:Center(
-        child: IconButton(
-          onPressed: (){},
-          icon: Icon(Icons.help),
-        )
+      body: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Expanded(
+              flex:2,
+              child: Container(
+                  color: Colors.red,
+                  child: Text('hello',style: TextStyle(fontSize: 20),
+                  )
+              )
+          ),
+          Expanded(
+              child: ElevatedButton(
+                  onPressed: (){},
+                  child: Text("me", style: TextStyle(fontSize: 16))
+              )
+          ),
+          Expanded(
+            child: Container(
+                color: Colors.green,
+                child: Text('today', style: TextStyle(fontSize: 28),)
+            ),
+          )
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         child: Text('press', style: TextStyle(color: Colors.white),),
@@ -41,6 +61,14 @@ class Home extends StatelessWidget {
     );
   }
 }
+
+/*
+* container
+* padding
+* column
+* row
+* expanded
+*/
 /*
 Image.network("https://img.freepik.com/free-photo/ultra-detailed-nebula-abstract-wallpaper-4_1562-749.jpg?w=826&t=st=1708976245~exp=1708976845~hmac=d5b5cf02c7db126e92dcc3eb3a846d41697958b1f4a178aae26c253316c7daa1")
 Image.asset("assets/3.jpg")
