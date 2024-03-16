@@ -8,11 +8,34 @@ void main() {
     debugShowCheckedModeBanner: false,
   ));
 }
+class  extends StatelessWidget {
+  const ({super.key});
 
-class IdCard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
+
+class IdCard extends StatefulWidget {
   IdCard({super.key});
+
+  @override
+  State<IdCard> createState() => _IdCardState();
+}
+
+class _IdCardState extends State<IdCard> {
   Color primaryColor = Color(0xff39251E);
+
   Color secondaryColor = Color(0xffEAD9CA);
+  int bounty=3000000000;
+  Color homeIconColor= Colors.white;
+  List<String> crew = [
+    "Zoro",
+    "Sanji",
+    'Nami',
+
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,6 +47,21 @@ class IdCard extends StatelessWidget {
         ),
         centerTitle: true,
         backgroundColor: primaryColor,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right:8),
+            child: IconButton(
+                icon: Icon(Icons.home_filled, size: 36, color:homeIconColor),
+              onPressed: (){
+                  setState(() {
+                    //condition ?(true) operation1 :(false) operation2
+                   homeIconColor==Colors.white ? homeIconColor = Colors.red : homeIconColor = Colors.white;
+                  });
+              },
+
+            ),
+          ),
+        ],
       ),
       backgroundColor: secondaryColor,
       body: Padding(
@@ -178,7 +216,38 @@ class IdCard extends StatelessWidget {
                   ),
                 ],
               ),
-              Spacer(),
+              SizedBox(height: 32,),
+              Container(
+                color: primaryColor,
+                width: double.infinity,
+                child: Center(
+                  child: Text(
+                    'Crew',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontFamily: 'juju',
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+              SizedBox(height: 16,),
+              Row(
+                children: crew.map((e){
+                  return Padding(
+                    padding: const EdgeInsets.only(right:8.0),
+                    child: Text(
+                      e,
+                      style: TextStyle(
+                          color: primaryColor,
+                          fontSize: 20,
+                          fontFamily: 'juju',
+                          fontWeight: FontWeight.bold),
+                    ),
+                  );
+                }).toList()
+              ),
+              SizedBox(height: 32,),
               Container(
                 padding: EdgeInsets.symmetric(vertical: 4),
                 decoration: BoxDecoration(
@@ -198,12 +267,13 @@ class IdCard extends StatelessWidget {
                     ),
                     SizedBox(width:8),
                     Text(
-                        "3.000.000.000",
+                        bounty.toString(),
                         style: TextStyle(
                           fontFamily: "juju",
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
-                          color: primaryColor
+                          color: primaryColor,
+                          letterSpacing: 2.0
                         ),
                     ),
 
@@ -214,9 +284,23 @@ class IdCard extends StatelessWidget {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add, color: Colors.white,),
+        onPressed: (){
+          setState((){
+            bounty+=1000000000;
+          });
+
+        },
+        backgroundColor: primaryColor,
+      ),
     );
   }
 }
+
+
+
+
 
 
 
