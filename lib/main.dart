@@ -1,20 +1,11 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
+import 'package:id_card/character.dart';
 
 void main() {
   runApp(MaterialApp(
     home: IdCard(),
     debugShowCheckedModeBanner: false,
   ));
-}
-class  extends StatelessWidget {
-  const ({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
 }
 
 class IdCard extends StatefulWidget {
@@ -28,14 +19,15 @@ class _IdCardState extends State<IdCard> {
   Color primaryColor = Color(0xff39251E);
 
   Color secondaryColor = Color(0xffEAD9CA);
-  int bounty=3000000000;
-  Color homeIconColor= Colors.white;
-  List<String> crew = [
-    "Zoro",
-    "Sanji",
-    'Nami',
+
+  List<Character> characters = [
+    Character(name: "Monkey D. luffy", image:"https://images2.alphacoders.com/132/1325913.png", status: "Alive", pirate_crew: "Mugiwara", role: "Captain", devil_fruit: "Gomu gomu no mi", type: "Paramecia", bounty: 3000000000),
+    Character(name: "Roronoa Zoro", image:"https://cdn.shopify.com/s/files/1/0755/5068/7558/files/roronoa-zoro-one-piece_8a066929-7e9c-4577-a08d-438e1a2d458a.webp?v=1686739171", status: "Alive", pirate_crew: "Mugiwara", role: "Vice", bounty: 1111000000),
+    Character(name: "Vinsmoke Sanji", image:"https://i.pinimg.com/736x/f0/aa/9d/f0aa9db141b89ca7e36008c7a20302fd.jpg", status: "Alive", pirate_crew: "Mugiwara", role: "Cook", bounty: 1032000000),
 
   ];
+  int index = 0;
+  Color homeIconColor= Colors.white;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,11 +43,10 @@ class _IdCardState extends State<IdCard> {
           Padding(
             padding: const EdgeInsets.only(right:8),
             child: IconButton(
-                icon: Icon(Icons.home_filled, size: 36, color:homeIconColor),
+                icon: Icon(Icons.refresh, size: 36, color:Colors.white),
               onPressed: (){
                   setState(() {
-                    //condition ?(true) operation1 :(false) operation2
-                   homeIconColor==Colors.white ? homeIconColor = Colors.red : homeIconColor = Colors.white;
+                    index = (index+1)%3;
                   });
               },
 
@@ -71,14 +62,12 @@ class _IdCardState extends State<IdCard> {
             children: [
               CircleAvatar(
                 radius: 100,
-                backgroundImage: NetworkImage(
-                    "https://images2.alphacoders.com/132/1325913.png"),
-              ),
+                backgroundImage: NetworkImage(characters[index].image),),
               SizedBox(
                 height: 8,
               ),
               Text(
-                'MONKEY D. LUFFY',
+                characters[index].name,
                 style: TextStyle(
                   letterSpacing: 2.0,
                   fontFamily: 'one-piece',
@@ -107,7 +96,7 @@ class _IdCardState extends State<IdCard> {
                   ),
                   SizedBox(width: 8,),
                   Text(
-                      "Alive",
+                    characters[index].status,
                     style: TextStyle(
                         color: primaryColor,
                         fontSize: 20,
@@ -133,7 +122,7 @@ class _IdCardState extends State<IdCard> {
                   ),
                   SizedBox(width: 8,),
                   Text(
-                    "Mugiwara",
+                    characters[index].pirate_crew,
                     style: TextStyle(
                         color: primaryColor,
                         fontSize: 20,
@@ -155,7 +144,7 @@ class _IdCardState extends State<IdCard> {
                   ),
                   SizedBox(width: 8,),
                   Text(
-                    "Captain",
+                    characters[index].role,
                     style: TextStyle(
                         color: primaryColor,
                         fontSize: 20,
@@ -181,7 +170,7 @@ class _IdCardState extends State<IdCard> {
                   ),
                   SizedBox(width: 8,),
                   Text(
-                    "Gomu gomu no mi",
+                    characters[index].devil_fruit ?? "N/A",
                     style: TextStyle(
                         color: primaryColor,
                         fontSize: 20,
@@ -207,7 +196,7 @@ class _IdCardState extends State<IdCard> {
                   ),
                   SizedBox(width: 8,),
                   Text(
-                    "Paramecia",
+                    characters[index].type ?? "N/A",
                     style: TextStyle(
                         color: primaryColor,
                         fontSize: 20,
@@ -232,22 +221,33 @@ class _IdCardState extends State<IdCard> {
                 ),
               ),
               SizedBox(height: 16,),
-              Row(
-                children: crew.map((e){
-                  return Padding(
-                    padding: const EdgeInsets.only(right:8.0),
-                    child: Text(
-                      e,
-                      style: TextStyle(
+              SizedBox(
+                height: 40,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: characters.map((ch){
+                    return Container(
+                      margin: EdgeInsets.only(right: 4),
+                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        border: Border.all(
                           color: primaryColor,
-                          fontSize: 20,
-                          fontFamily: 'juju',
-                          fontWeight: FontWeight.bold),
-                    ),
-                  );
-                }).toList()
+                        ),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        ch.name,
+                        style: TextStyle(
+                            color: primaryColor,
+                            fontSize: 20,
+                            fontFamily: 'juju',
+                            fontWeight: FontWeight.bold),
+                      ),
+                    );
+                  }).toList()
+                ),
               ),
-              SizedBox(height: 32,),
+              Spacer(),
               Container(
                 padding: EdgeInsets.symmetric(vertical: 4),
                 decoration: BoxDecoration(
@@ -267,7 +267,7 @@ class _IdCardState extends State<IdCard> {
                     ),
                     SizedBox(width:8),
                     Text(
-                        bounty.toString(),
+                        characters[index].bounty.toString(),
                         style: TextStyle(
                           fontFamily: "juju",
                           fontSize: 28,
@@ -283,16 +283,6 @@ class _IdCardState extends State<IdCard> {
             ],
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add, color: Colors.white,),
-        onPressed: (){
-          setState((){
-            bounty+=1000000000;
-          });
-
-        },
-        backgroundColor: primaryColor,
       ),
     );
   }
